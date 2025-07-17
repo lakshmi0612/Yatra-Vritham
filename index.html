@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kollam Travels - Explore Kerala</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+ 
+
+  <!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    /* 📍 Animated Map Pins */
+.map-pin {
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  animation: pulse 1.5s infinite;
+  z-index: 10;
+  box-shadow: 0 0 0 rgba(255, 0, 0, 0.4);
+}
+
+.map-pin::after {
+  content: "";
+  position: absolute;
+  top: 55%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}
+
+
+ 
+
+    /* 🌧️ Raindrop Effect */
+.raindrop {
+  position: fixed;
+  top: -20px;
+  color: #b3d9ff; /* light blue */
+  font-size: 1.2em;
+  animation: fall linear infinite;
+  z-index: 5;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) scaleY(0.3) scaleX(2);
+    opacity: 0;
+  }
+}
+
+
+
+
+    
+/* Button bounce animation */
+.btn {
+  background-color: #34d399;
+  color: #111;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 9999px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, background 0.3s;
+}
+
+.btn:hover {
+  background-color: #10b981;
+  transform: scale(1.05);
+}
+
+/* Social Icon animation */
+.footer-icons a {
+  margin: 0 10px;
+  font-size: 1.4rem;
+  color: #bbb;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-icons a:hover {
+  transform: translateY(-5px) scale(1.1);
+  color: #34d399;
+}
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Patrick Hand', cursive;
+      color: #fff;
+      background: url("Assignment1_Images/kolllllll.jpg") no-repeat center center/cover;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #34d399;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 1.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #34d399;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 6rem 2rem 3rem;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      color: #d1fae5;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #e0f2f1;
+    }
+
+    .btn {
+      background-color: #34d399;
+      color: #111;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 9999px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #10b981;
+    }
+
+    section {
+      background: #ffffff;
+      color: #111;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 2;
+      transition: all 1s ease;
+    }
+
+    section h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #047857;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: #f0fdf4;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      padding: 1rem;
+      font-size: 1.3rem;
+      color: #065f46;
+    }
+
+    .card p {
+      padding: 0 1rem 1rem;
+      font-size: 0.95rem;
+      color: #333;
+    }
+
+    footer {
+      background: #111;
+      color: #bbb;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Fade-in Animation Classes */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+   <button onclick="toggleRain()" style="position: fixed; bottom: 20px; right: 20px; z-index: 10; background: #34d399; border: none; color: black; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold; cursor: pointer;">
+  Toggle Rain
+</button>
+  <audio id="rain-sound" src="Assignment1_Images/Rain.mp3" loop></audio>
+
+ 
+
+  <!-- 🌧️ Rain Effect -->
+<div class="raindrop" style="left: 5%; animation-duration: 1.5s; animation-delay: 0s;">|</div>
+<div class="raindrop" style="left: 10%; animation-duration: 1.8s; animation-delay: 0.2s;">|</div>
+<div class="raindrop" style="left: 15%; animation-duration: 1.6s; animation-delay: 0.4s;">|</div>
+<div class="raindrop" style="left: 25%; animation-duration: 1.7s; animation-delay: 0.1s;">|</div>
+<div class="raindrop" style="left: 35%; animation-duration: 1.9s; animation-delay: 0.3s;">|</div>
+<div class="raindrop" style="left: 50%; animation-duration: 1.6s; animation-delay: 0.6s;">|</div>
+<div class="raindrop" style="left: 65%; animation-duration: 1.5s; animation-delay: 0.2s;">|</div>
+<div class="raindrop" style="left: 75%; animation-duration: 1.8s; animation-delay: 0.5s;">|</div>
+<div class="raindrop" style="left: 85%; animation-duration: 1.7s; animation-delay: 0.3s;">|</div>
+<div class="raindrop" style="left: 95%; animation-duration: 1.6s; animation-delay: 0.1s;">|</div>
+
+
+  <!-- Header Navigation -->
+  <header>
+   
+
+    <div class="logo" style="font-family:'Caveat', cursive;">Yatra Vritham</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#packages">Packages</a>
+      <a href="#gallery">Gallery</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="#contact">Contact</a>
+
+
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1 style="font-family:'Caveat', cursive;">Explore Kollam with Us</h1>
+    <p style="font-family:'Caveat', cursive;">"Kollam Kandal Illam Venda" ~ Let's experience the unseen beauty of the land of cashews</p>
+    <button class="btn" onclick="document.getElementById('packages').scrollIntoView({behavior:'smooth'});">View Packages</button>
+  </div>
+   
+
+
+  <!-- About Section -->
+  <section id="about" class="fade-in" style="background: #f9fafb; padding: 4rem 2rem; text-align: center; color: #065f46;">
+  <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">About Us</h2>
+  <div style="max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: #333;">
+    
+    <p style="margin-bottom: 1.5rem;">
+      <strong style="color: #10b981;font-family:'Caveat', cursive;">Yatra Vritham</strong> is not just a travel agency — it is a spiritual odyssey into the soul of Kollam. Every path whispers secrets, and every breeze carries the scent of age-old stories. We’re driven by passion and guided by purpose, crafting experiences that let you <em>feel</em> the land, not just see it.
+    </p>
+
+    <p style="margin-bottom: 1.5rem;">
+      From the graceful drift of houseboats across the serene Ashtamudi Lake, to the hidden forest trails of Thenmala that echo with myths, every journey with us is stitched with nature, emotion, and authenticity.
+    </p>
+
+    <p style="margin-bottom: 1.5rem;">
+      Let the ringing temple bells, rustling coconut groves, and the welcoming smiles of villagers guide you through moments that last beyond time. <strong style="color: #10b981;font-family:'Caveat', cursive;">Yatra Vritham</strong> doesn’t create itineraries — we craft memories, emotions, and soulful adventures that beat in sync with the heart of Kerala.
+    </p>
+
+  </div>
+</section>
+
+
+  <!-- Discover Kollam Section -->
+<!-- Discover Kollam Section -->
+<section id="discover" class="fade-in" style="background: #fdfdfd; color: #222;">
+  <h2 style="text-align: center; color: #065f46; ">Discover Kollam</h2>
+  <div style="max-width: 1000px; margin: 2rem auto; padding: 0 1rem;">
+    
+    <img src="Assignment1_Images/kollam1.jpg" alt="Kollam Beach" style="width: 100%; height: 50%; border-radius: 10px; margin-bottom: 1rem;">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1rem;">
+  <p style="flex: 1; font-size: 1rem; line-height: 1.6; color: #333;">
+    Gently nestled on the golden crescent of Kerala's shore, Kollam is more than a district — it is a living verse, penned by the sea breeze, spoken by coconut trees, and sung by the rivers that weave through its green lands. Old and wise, Kollam bears the fragrance of the Arabian Sea and the beat of backwaters in its breath, keeping the secrets of centuries of history, commerce, and tradition in its earth....
+  </p>
+
+  <a href="kollam-history.html" style="text-decoration: none;">
+    <button class="btn" style="padding: 0.75rem 1.5rem; font-size: 0.95rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1); white-space: nowrap;">
+      Read More →
+    </button>
+  </a>
+</div>
+
+  </div>
+</section>
+
+
+  <!-- Map Section -->
+<section id="map-section" class="fade-in">
+  <h2>Explore Kollam on Map</h2>
+  <div style="position: relative; max-width: 1000px; margin: auto;">
+    <img src="Assignment1_Images/kollam.jpg" alt="Kollam Map" style="width: 100%; height: auto; display: block; border-radius: 1rem;">
+
+    <!-- 📍 Map Pins -->
+    <div class="map-pin" style="position: absolute; top: 40%; left: 30%;"></div>
+    <div class="map-pin" style="position: absolute; top: 64%; left: 52.5%;"></div>
+    <div class="map-pin" style="position: absolute; top: 62%; left: 70%;"></div> <!-- shifted 3rd pin up -->
+  </div>
+</section>
+
+
+
+  <!-- Packages Section -->
+  <section id="packages" class="fade-in">
+    <h2>Our Packages</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="Assignment1_Images/ashtamudi.jpeg" alt="Ashtamudi">
+        <h3>Backwater Bliss</h3>
+        <p>2 Nights houseboat cruise across Ashtamudi Lake with local cuisine and guided village walk.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/thenmala2.jpeg" alt="Thenmala">
+        <h3>Eco-Adventure</h3>
+        <p>Thenmala trek, tree-top walk, butterfly safari, and cultural night stay in a forest cottage.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/thenmala.jpeg" alt="Palaruvi">
+        <h3>Waterfall Escape</h3>
+        <p>Palaruvi falls picnic with ayurvedic spa, herbal lunch, and traditional performance.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/jatayu.jpg" alt="Jatayu Paara">
+        <h3>Jadayu Earth Center</h3>
+        <p>A stroll through Jatayu Earth Center, a unique nature park, home to the world’s largest bird sculpture.</p>
+      </div>
+       <div class="card">
+        <img src="Assignment1_Images/Bhoothanatha.jpg" alt="Jatayu Paara">
+        <h3>Sree Bhoothanatha Swami Temple</h3>
+        <p>A temple beautiful dedicated to lord Shiva situated in the top of a rock.</p>
+      </div>
+       <div class="card">
+        <img src="Assignment1_Images/kottarakkara.webp" alt="Jatayu Paara">
+        <h3>Kottarakkara Mahaganapathi Temple</h3>
+        <p>Beautiful, serene temple situvated in Kottarakara Thaluk of Kollam, homeland to the divinity of Kathakali.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Sasthamcotta.jpg" alt="Sasthamcotta Lake">
+        <h3>Sasthamcotta Lake</h3>
+        <p>The pure water lake of Kollam, surrounded by nature's aesthetic scenery.</p>
+      </div>
+     
+      <div class="card">
+        <img src="Assignment1_Images/Thangaserry.jpg" alt="Thangaserry">
+        <h3>Thangasserry Light House</h3>
+        <p>Thangaseery light house, giving us all a old vintage vibe.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/kollambeach.webp" alt="Kollam Beach">
+        <h3>Kollam Beach</h3>
+        <p>Visit Kollam's most ferocious beaches.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/StThomas.jpg" alt="StThomas">
+        <h3>St Thomas Fort</h3>
+        <p>A heartfelt visit to one of the oldest fort in the history of kerala.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/azheekal.jpg" alt="azheekal">
+        <h3>Azheekal Beach</h3>
+        <p>Serene beach mixed with the natural vibe of Kerala.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/thirumullavaram.webp" alt="thirumullavaram">
+        <h3>Thirumullavaram Beach</h3>
+        <p>Visit Thirumallavaram Beach, one of the beautiful beaches in Kerala.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Thanni.jpeg" alt="Thanni">
+        <h3>Thanni Beach</h3>
+        <p>Visit Thanni Beach, a serene coastal gem where golden sands, gentle Arabian Sea waves, and tranquil backwaters meet, offering peaceful sunsets and idyllic spots for yoga, fishing, and quiet picnics.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Kallada.jpg" alt="JKallada">
+        <h3>Kallada Lake</h3>
+        <p>Visit Kallada River, a scenic and historic river flowing through Kollam, known for its lush banks, ancient temples, and the famed Kallada Boat Race that celebrates the region’s vibrant culture and spirit.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Pozhikkara.jpeg" alt="Pozhikkara">
+        <h3>Pozhikkara Beach</h3>
+        <p>Pozhikkara Beach, a tranquil coastal retreat at the edge of Paravur in Kollam, where calm backwaters meet the Arabian Sea, creating a perfect blend of serenity, sunsets, and natural beauty.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/kappil.webp" alt="kappil">
+        <h3>Kappil Beach</h3>
+        <p>Visit Kappil Beach, a picturesque coastal haven in Kollam where the serene backwaters meet the Arabian Sea, framed by swaying palms and offering stunning sunrise and sunset vistas.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Eravipuram.jpeg" alt="Eravipuram">
+        <h3>Eravipuram Beach</h3>
+        <p>Eravipuram Beach a charming, rustic coastline in Kollam’s Eravipuram suburb, known for its, coconut-lined shores, and the iconic beached shipwreck that adds a unique, nostalgic charm to evening strolls.</p>
+      </div>
+      <div class="card">
+        <img src="Assignment1_Images/Mundakkal.jpg" alt="Mundakkal">
+        <h3>Mundakal Beach</h3>
+        <p>Mundakkal Beach a peaceful, golden-sand coastline in Kollam’s Mundakkal neighborhood—famed for the iconic dredger “Hansitha,” the annual Karkidaka Vavubali ritual, and its serene sunsets by the Arabian Sea.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <!-- <section id="gallery" class="fade-in">
+    <h2>Gallery</h2>
+    <div class="grid">
+      <div class="card"><img src="Assignment1_Images/lighthouse.jpg" alt="Lighthouse"></div>
+      <div class="card"><img src="Assignment1_Images/kathakali.jpg" alt="Kathakali"></div>
+      <div class="card"><img src="Assignment1_Images/munroe.jpg" alt="Munroe Island"></div>
+    </div>
+  </section> -->
+
+  <!-- Gallery Section (Preview) -->
+<section id="gallery" class="fade-in">
+  <h2>Gallery</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="Assignment1_Images/Thennnn.jpg" alt="Lighthouse">
+    </div>
+    <div class="card">
+      <img src="Assignment1_Images/kathakali.jpg" alt="Kathakali">
+    </div>
+    <div class="card">
+      <img src="Assignment1_Images/munroe.jpg" alt="Munroe Island">
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="gallery.html">
+      <button class="btn">View More</button>
+    </a>
+  </div>
+</section>
+
+
+  <!-- Contact Section -->
+  
+
+
+  <!-- Footer -->
+  <footer>
+  <p>© 2023 Yatra Vritham. All Rights Reserved.</p>
+  <div class="footer-icons" style="margin-top: 10px;">
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+  </div>
+</footer>
+
+
+  
+
+  <!-- Scroll Reveal Script -->
+  <script>
+    const faders = document.querySelectorAll('.fade-in');
+
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -100px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  </script>
+  <script>
+  let isRaining = true;
+  const rainAudio = document.getElementById('rain-sound');
+
+  // Ensure audio volume is up and can play
+  rainAudio.volume = 0.5;
+
+  function toggleRain() {
+    isRaining = !isRaining;
+
+    // Toggle raindrop visibility (if using dynamic drops later)
+    const drops = document.querySelectorAll('.raindrop');
+    drops.forEach(drop => drop.style.display = isRaining ? 'block' : 'none');
+
+    // Play/pause audio
+    if (isRaining) {
+      rainAudio.play().catch(err => console.log("Autoplay error:", err));
+    } else {
+      rainAudio.pause();
+    }
+  }
+</script>
+
+  
+
+
+</body>
+</html>
